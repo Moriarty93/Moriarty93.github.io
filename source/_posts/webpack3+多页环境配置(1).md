@@ -3,6 +3,7 @@ title: webpack3+多页环境配置(1)
 date: 2018-04-27 13:03:53
 categories: Javascript
 tags: webpack
+description: 搭建webpack多页的背景介绍
 ---
 
 # webpack3+多页环境配置(1)
