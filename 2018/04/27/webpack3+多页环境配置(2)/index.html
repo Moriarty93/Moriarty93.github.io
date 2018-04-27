@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="配置基本的webpack开发环境">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack3+多页环境配置(2)">
+<meta property="og:url" content="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(2)/index.html">
+<meta property="og:site_name" content="Moriarty_Notes">
+<meta property="og:description" content="配置基本的webpack开发环境">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-27T14:58:08.381Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack3+多页环境配置(2)">
+<meta name="twitter:description" content="配置基本的webpack开发环境">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(2)/"/>
+
+
+
+
+
+  <title>webpack3+多页环境配置(2) | Moriarty_Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Moriarty_Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(2)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty_Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack3+多页环境配置(2)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T15:07:06+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  配置基本的webpack开发环境
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="webpack3-多页环境配置-2"><a href="#webpack3-多页环境配置-2" class="headerlink" title="webpack3+多页环境配置(2)"></a>webpack3+多页环境配置(2)</h1><h4 id="区分开发和生产环境"><a href="#区分开发和生产环境" class="headerlink" title="区分开发和生产环境"></a>区分开发和生产环境</h4><hr>
+<p>开发和生产环境的某些配置是不一样了，这时候最好是分为2个配置文件，当开发时启动开发配置<code>webpack.config.dev.js</code>，打包时启动生产配置<code>webpack.config.pro.js</code>。这样区分不仅在后期更好维护，在开发时候也更加快速，不用进行无用的修改。<br>具体修改如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;build&quot;: &quot;webpack  --progress --color --config ./config/webpack.config.prod.js&quot;,</span><br><span class="line">    &quot;dev&quot;: &quot;webpack-dev-server --progress --color --open --config ./config/webpack.config.dev.js&quot;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置入口文件"><a href="#配置入口文件" class="headerlink" title="配置入口文件"></a>配置入口文件</h4><hr>
+<p>在<code>src</code>下新建<code>index.html</code>文件作为项目入口文件，同时在<code>src</code>下建立<code>js</code>文件夹，然后创建<code>index.js</code>文件作为识别。</p>
+<p>index.html:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang=&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">  &lt;title&gt;Document&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div class=&quot;wrap&quot;&gt;</span><br><span class="line">    Moriarty</span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>index.js:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">console.log(&apos;Moriarty&apos;);</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置config-js"><a href="#配置config-js" class="headerlink" title="配置config.js"></a>配置config.js</h4><hr>
+<p><code>config.js</code>是对全局路径的配置。在<code>config</code>文件夹下创建<code>config.js</code>文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const PROJECT_PATH = process.cwd();</span><br><span class="line">const config = &#123;</span><br><span class="line">  PROJECT_PATH,  // 项目目录</span><br><span class="line">  CONFIG_PATH: path.join(__dirname),  // 配置文件目录</span><br><span class="line">  BUILD_PATH: path.join(PROJECT_PATH, &apos;./dist/&apos;), // 打包目录</span><br><span class="line">  SRC_PATH: path.join(PROJECT_PATH, &apos;./src/&apos;),  // 源文件目录</span><br><span class="line">  PUBLIC_PATH: path.join(PROJECT_PATH, &apos;./dist/static/&apos;), // 静态文件存放目录</span><br><span class="line">  HTML_PATH: path.join(PROJECT_PATH, &apos;./src/html/&apos;),</span><br><span class="line">  NODE_MODULES_PATH: path.join(PROJECT_PATH, &apos;./node_modules/&apos;), // node_modules目录</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = config;</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置webpack-config-base"><a href="#配置webpack-config-base" class="headerlink" title="配置webpack.config.base"></a>配置webpack.config.base</h4><hr>
+<p><code>webpack.config.base.js</code>是开发和生产共有的基本配置文件。在<code>config</code>文件夹下新建<code>webpack.config.base.js</code>文件。同时安装<code>html-webpack-plugin</code>用于生成html。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev html-webpack-plugin</span><br></pre></td></tr></table></figure></p>
+<p>webpack.config.base.js文件内容如下，其中对js的处理只包括src下的文件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;); </span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const HTMLWebpackPlugin = require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">let HTMLPlugins = []; // 保存HTMLWebpackPlugin实例</span><br><span class="line">let Entries = &#123;&#125;; // 保存入口列表</span><br><span class="line">// 单独处理项目首页 ---结构不同</span><br><span class="line">const indexCfg = &#123;</span><br><span class="line">  filename: &apos;index.html&apos;,</span><br><span class="line">  template: path.join(config.SRC_PATH, &apos;index.html&apos;),</span><br><span class="line">  chunks: [&apos;index&apos;]</span><br><span class="line">&#125;;</span><br><span class="line">Entries.index = &apos;./src/js/index.js&apos;;</span><br><span class="line">HTMLPlugins.push(new HTMLWebpackPlugin(indexCfg));</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  context: config.PROJECT_PATH,</span><br><span class="line">  entry: Entries,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: config.BUILD_PATH, </span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    ...HTMLPlugins</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h4 id="配置webpack-config-dev"><a href="#配置webpack-config-dev" class="headerlink" title="配置webpack.config.dev"></a>配置webpack.config.dev</h4><hr>
+<p><code>webpack.config.dev.js</code>是开发配置文件。在<code>config</code>文件夹下新建<code>webpack.config.dev.js</code>文件。同时安装<code>webpack-dev-server</code>、<code>webpack-merge</code>，分别用于本地开发和合并webpack设置。这里注意<code>webpack-dev-server</code>较高的版本会报错！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-dev-server@2.9.4 webpack-merge</span><br></pre></td></tr></table></figure></p>
+<p><code>webpack.config.dev.js</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const webpackBase = require(&apos;./webpack.config.base.js&apos;);</span><br><span class="line">const config = require(&apos;./config.js&apos;);</span><br><span class="line">const webpackMerge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const webpackDev = &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &apos;js/[name].[hash:8].bundle.js&apos;, // 开发环境用hash</span><br><span class="line">  &#125;,</span><br><span class="line">  devtool: &apos;cheap-module-eval-source-map&apos;, // 开发环境设置sourceMap，生产环境不使用</span><br><span class="line">  devServer: &#123; // 启动devServer，不会在本地生成文件，所有文件会编译在内存中(读取速度快)</span><br><span class="line">    contentBase: &apos;./dist/&apos;, // 这个目录下的内容可被访问</span><br><span class="line">    overlay: true, // 错误信息直接显示在浏览器窗口中</span><br><span class="line">    inline: true, // 实时重载的脚本被插入到你的包(bundle)中，并且构建消息将会出现在浏览器控制台</span><br><span class="line">    hot: true, // 配合webpack.NamedModulesPlugin、webpack.HotModuleReplacementPlugin完成MHR</span><br><span class="line">    host: &quot;0.0.0.0&quot;, // 设置为0.0.0.0并配合useLocalIp可以局域网访问</span><br><span class="line">    useLocalIp: true, // 使用本机IP打开devServer，而不是localhost</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.NamedModulesPlugin(), // 开发环境用于标识模块id</span><br><span class="line">    new webpack.HotModuleReplacementPlugin() // 热替换插件</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = webpackMerge(webpackBase, webpackDev);</span><br></pre></td></tr></table></figure></p>
+<p>到此输入<code>npm run dev</code>就可以看到浏览器自动打开并且页面显示Moriarty，打开控制台也看到输出Moriarty。开发的基本环境就算完成咯。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/备忘/" rel="next" title="备忘">
+                <i class="fa fa-chevron-left"></i> 备忘
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/27/webpack3+多页环境配置(3)/" rel="prev" title="webpack3+多页环境配置(3)">
+                webpack3+多页环境配置(3) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Moriarty" />
+            
+              <p class="site-author-name" itemprop="name">Moriarty</p>
+              <p class="site-description motion-element" itemprop="description">乱七八糟笔记</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Moriarty93" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack3-多页环境配置-2"><span class="nav-number">1.</span> <span class="nav-text">webpack3+多页环境配置(2)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#区分开发和生产环境"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">区分开发和生产环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置入口文件"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">配置入口文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置config-js"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">配置config.js</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置webpack-config-base"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">配置webpack.config.base</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置webpack-config-dev"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">配置webpack.config.dev</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Moriarty</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://github.com/Moriarty93">Github</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">By &mdash; Moriarty
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

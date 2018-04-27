@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="webpack," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="webpack的多页基本配置和开发生产环境">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack3+多页环境配置(3)">
+<meta property="og:url" content="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(3)/index.html">
+<meta property="og:site_name" content="Moriarty_Notes">
+<meta property="og:description" content="webpack的多页基本配置和开发生产环境">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-27T14:59:17.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="webpack3+多页环境配置(3)">
+<meta name="twitter:description" content="webpack的多页基本配置和开发生产环境">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(3)/"/>
+
+
+
+
+
+  <title>webpack3+多页环境配置(3) | Moriarty_Notes</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Moriarty_Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://moriarty93.github.io/2018/04/27/webpack3+多页环境配置(3)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Moriarty">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Moriarty_Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">webpack3+多页环境配置(3)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-27T17:13:38+08:00">
+                2018-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  webpack的多页基本配置和开发生产环境
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="webpack3-多页环境配置-3"><a href="#webpack3-多页环境配置-3" class="headerlink" title="webpack3+多页环境配置(3)"></a>webpack3+多页环境配置(3)</h1><h4 id="配置webpack-config-prod"><a href="#配置webpack-config-prod" class="headerlink" title="配置webpack.config.prod"></a>配置webpack.config.prod</h4><hr>
+<p><code>webpack.config.prod.js</code>是生产配置文件。在<code>config</code>文件夹下新建<code>webpack.config.prod.js</code>文件。<br><code>webpack.config.prod.js</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const webpackBase = require(&apos;./webpack.config.base.js&apos;);</span><br><span class="line">const config = require(&apos;./config.js&apos;);</span><br><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const webpackMerge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const webpackProd = &#123;</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &apos;js/[name].[chunkhash:8].bundle.js&apos;, // 生产环境用chunkhash</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.DefinePlugin(&#123; // 指定为生产环境，进而让一些library可以做一些优化</span><br><span class="line">      &apos;process.env.NODE_ENV&apos;: JSON.stringify(&apos;production&apos;)</span><br><span class="line">    &#125;),</span><br><span class="line">    new webpack.HashedModuleIdsPlugin(), // 生产环境用于标识模块id</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br><span class="line">module.exports = webpackMerge(webpackBase, webpackProd);</span><br></pre></td></tr></table></figure></p>
+<p>输入<code>npm run build</code>可以看见在demo下生成了dist文件夹，证明打包成功了，可以直接打开index.html查看。</p>
+<h4 id="配置多页面的项目结构"><a href="#配置多页面的项目结构" class="headerlink" title="配置多页面的项目结构"></a>配置多页面的项目结构</h4><hr>
+<p>首先在<code>src</code>下创建<code>html</code>文件夹用来存放页面；这里注意，我们以官网首页为例，我们打开官网后直接定位找到的应该是index.html，如果我们把index.html和其他页面放在<code>html</code>一起，就不太好，所以把index.html单独作为入口提到外面。<br>我们先在<code>html</code>下创建<code>page1.html</code>和<code>page2.html</code>;并分别在<code>js</code>下创建对应的js入口文件。结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">├─index.html # 主页面入口</span><br><span class="line">    ├─html # 各个子页面</span><br><span class="line">    │  ├─page1.html # page1页面</span><br><span class="line">    |  ├─page2.html # page2页面</span><br><span class="line">    │  └─....</span><br><span class="line">    ├─js # js文件</span><br><span class="line">    |  ├─index.js # index js</span><br><span class="line">    |  ├─page1.js # page1 js</span><br><span class="line">    |  ├─page2.js # page2 js</span><br></pre></td></tr></table></figure>
+<h4 id="配置多页面的入口"><a href="#配置多页面的入口" class="headerlink" title="配置多页面的入口"></a>配置多页面的入口</h4><hr>
+<p>修改<code>webpack.config.base.js</code>配置，把page打包到html文件夹中:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const page1Cfg = &#123;</span><br><span class="line">  filename: &apos;html/page1.html&apos;,</span><br><span class="line">  template: path.join(config.HTML_PATH, &apos;./page1.html&apos;),</span><br><span class="line">  chunks: [&apos;page1&apos;]</span><br><span class="line">&#125;;</span><br><span class="line">Entries.page1 = &apos;./src/js/page1.js&apos;;</span><br><span class="line">HTMLPlugins.push(new HTMLWebpackPlugin(page1Cfg));</span><br><span class="line"></span><br><span class="line">const page2Cfg = &#123;</span><br><span class="line">  filename: &apos;html/page2.html&apos;,</span><br><span class="line">  template: path.join(config.HTML_PATH, &apos;./page2.html&apos;),</span><br><span class="line">  chunks: [&apos;page2&apos;]</span><br><span class="line">&#125;;</span><br><span class="line">Entries.page2 = &apos;./src/js/page2.js&apos;;</span><br><span class="line">HTMLPlugins.push(new HTMLWebpackPlugin(page2Cfg));</span><br></pre></td></tr></table></figure>
+<p>执行<code>npm run dev/build</code>可以看到基本的多页已经配置完成了。</p>
+<h4 id="配置多页面的入口之我很懒"><a href="#配置多页面的入口之我很懒" class="headerlink" title="配置多页面的入口之我很懒"></a>配置多页面的入口之我很懒</h4><hr>
+<p>多页多页就是很多页面，每个页面配置一遍，麻烦死了。直接搞个函数自动读取好了。要自动读取的话要引入node的<code>fs</code>来读取文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const fs = require(&apos;fs&apos;);</span><br></pre></td></tr></table></figure>
+<p>然后封装一个自动获取html文件方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const getFileNameList = (path) =&gt; &#123;</span><br><span class="line">  let fileList = [];</span><br><span class="line">  let dirList = fs.readdirSync(path);</span><br><span class="line">  dirList.forEach(item =&gt; &#123;</span><br><span class="line">    if (item.indexOf(&apos;html&apos;) &gt; -1) &#123;</span><br><span class="line">      fileList.push(item.split(&apos;.&apos;)[0]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  return fileList;</span><br><span class="line">&#125;;</span><br><span class="line">let htmlDirs = getFileNameList(config.HTML_PATH);</span><br></pre></td></tr></table></figure>
+<p>接下来类似对<code>index.html</code>的处理，对<code>htmlDirs</code>遍历，用<code>html-webpack-plugin</code>生成对应的html：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">htmlDirs.forEach((page) =&gt; &#123;</span><br><span class="line">  let htmlConfig = &#123;</span><br><span class="line">    filename: `html/$&#123;page&#125;.html`,</span><br><span class="line">    template: path.join(config.HTML_PATH, `./$&#123;page&#125;.html`), // 模板文件</span><br><span class="line">    chunks: [page]</span><br><span class="line">  &#125;;</span><br><span class="line">  Entries[page] = `./src/js/$&#123;page&#125;.js`;</span><br><span class="line"></span><br><span class="line">  const htmlPlugin = new HTMLWebpackPlugin(htmlConfig);</span><br><span class="line">  HTMLPlugins.push(htmlPlugin);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>再次执行dev/build可以看到都成功了。至此多页就算基本配置完成了，接下来就是各种优化咯。<br>这里贴上此次base代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;); </span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const config = require(&apos;./config.js&apos;);</span><br><span class="line">const fs = require(&apos;fs&apos;);</span><br><span class="line">const HTMLWebpackPlugin = require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const getFileNameList = (path) =&gt; &#123;</span><br><span class="line">  let fileList = [];</span><br><span class="line">  let dirList = fs.readdirSync(path);</span><br><span class="line">  dirList.forEach(item =&gt; &#123;</span><br><span class="line">    if (item.indexOf(&apos;html&apos;) &gt; -1) &#123;</span><br><span class="line">      fileList.push(item.split(&apos;.&apos;)[0]);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">  return fileList;</span><br><span class="line">&#125;;</span><br><span class="line">let htmlDirs = getFileNameList(config.HTML_PATH);</span><br><span class="line"></span><br><span class="line">let HTMLPlugins = []; // 保存HTMLWebpackPlugin实例</span><br><span class="line">let Entries = &#123;&#125;; // 保存入口列表</span><br><span class="line">// 单独处理项目首页 ---结构不同</span><br><span class="line">const indexCfg = &#123;</span><br><span class="line">  filename: &apos;index.html&apos;,</span><br><span class="line">  template: path.join(config.SRC_PATH, &apos;index.html&apos;),</span><br><span class="line">  chunks: [&apos;index&apos;]</span><br><span class="line">&#125;;</span><br><span class="line">Entries.index = &apos;./src/js/index.js&apos;;</span><br><span class="line">HTMLPlugins.push(new HTMLWebpackPlugin(indexCfg));</span><br><span class="line">htmlDirs.forEach((page) =&gt; &#123;</span><br><span class="line">  let htmlConfig = &#123;</span><br><span class="line">    filename: `html/$&#123;page&#125;.html`,</span><br><span class="line">    template: path.join(config.HTML_PATH, `./$&#123;page&#125;.html`), // 模板文件</span><br><span class="line">    chunks: [page]</span><br><span class="line">  &#125;;</span><br><span class="line">  Entries[page] = `./src/js/$&#123;page&#125;.js`;</span><br><span class="line"></span><br><span class="line">  const htmlPlugin = new HTMLWebpackPlugin(htmlConfig);</span><br><span class="line">  HTMLPlugins.push(htmlPlugin);</span><br><span class="line">&#125;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  context: config.PROJECT_PATH,</span><br><span class="line">  entry: Entries,</span><br><span class="line">  output: &#123;</span><br><span class="line">    path: config.BUILD_PATH, </span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    ...HTMLPlugins</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/webpack/" rel="tag"># webpack</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/27/webpack3+多页环境配置(2)/" rel="next" title="webpack3+多页环境配置(2)">
+                <i class="fa fa-chevron-left"></i> webpack3+多页环境配置(2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.jpg"
+                alt="Moriarty" />
+            
+              <p class="site-author-name" itemprop="name">Moriarty</p>
+              <p class="site-description motion-element" itemprop="description">乱七八糟笔记</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/Moriarty93" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-globe"></i>GitHub</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack3-多页环境配置-3"><span class="nav-number">1.</span> <span class="nav-text">webpack3+多页环境配置(3)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置webpack-config-prod"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">配置webpack.config.prod</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置多页面的项目结构"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">配置多页面的项目结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置多页面的入口"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">配置多页面的入口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置多页面的入口之我很懒"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">配置多页面的入口之我很懒</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Moriarty</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://github.com/Moriarty93">Github</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">By &mdash; Moriarty
+  </div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
