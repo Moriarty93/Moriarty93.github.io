@@ -2,9 +2,11 @@
   display: block;
   margin: 0 auto;
   padding: $site-author-image-padding;
-  max-width: $site-author-image-width;
-  height: $site-author-image-height;
+  width: 100px;
+  height 100px;
   border: $site-author-image-border-width solid $site-author-image-border-color;
+  border-radius: 50%;
+  animation: rotate 10s linear infinite;
 }
 
 .site-author-name {
@@ -19,4 +21,16 @@
   text-align: $site-description-align;
   font-size: $site-description-font-size;
   color: $site-description-color;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
