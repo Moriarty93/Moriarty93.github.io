@@ -21,7 +21,7 @@ tags: webpack
 #### 为什么要搭建多页
 ***
 
-webpack说实话用在spa上是比较多的，特别是现在vue、react都是依然webpack。但是有时候写个静态页面，写个官网，写几个不复杂的页面，往往不需要使用框架，特别是官网，还需要seo优化。然后webpack用习惯了，难免想使用less、sass、压缩、base64等等。
+webpack说实话用在spa上是比较多的，特别是现在vue、react都是依赖webpack。但是有时候写个静态页面，写个官网，写几个不复杂的页面，往往不需要使用框架，特别是官网，还需要seo优化。然后webpack用习惯了，难免想使用less、sass、压缩、base64等等。
 总而言之，为了懒，还是配个环境一劳永逸-. -
 
 #### 安装webpack
@@ -49,6 +49,3 @@ npm install --save-dev webpack@3.8.1
 * .babelrcg文件：babel的配置文件，在这里主要配置使用es6
 
 比写代码还累，基本目录结构好了，接下来就是安装各种依赖了~~
-
-
-
