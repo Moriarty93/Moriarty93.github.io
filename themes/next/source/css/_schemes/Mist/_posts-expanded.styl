@@ -10,7 +10,14 @@
   }
   .post-eof { display: none; }
 
-  .post { margin-top: 120px; }
+  .post { 
+    padding: 10px 20px 30px;
+    margin: 60px 0 0 -20px; 
+    border-radius: 5px;
+    &:hover {
+      box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    }
+  }
   .post:first-child { margin-top: 0; }
 
   .post-meta {
