@@ -150,7 +150,6 @@
               </a>
             </div>
           {% endif %}
-
           {# Blogroll #}
           {% if theme.links %}
             <div class="links-of-blogroll motion-element {{ "links-of-blogroll-" + theme.links_layout | default('inline') }}">
@@ -167,8 +166,10 @@
               </ul>
             </div>
           {% endif %}
-
+          
           {% include '../_custom/sidebar.swig' %}
+          
+          <div class="aplayer" data-id="27534281" data-server="netease" data-type="song" data-autoplay='true'></div>
         </div>
       </section>
 

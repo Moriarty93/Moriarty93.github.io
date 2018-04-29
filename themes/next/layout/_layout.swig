@@ -88,5 +88,9 @@
   {% include '_third-party/mathjax.swig' %}
   {% include '_third-party/scroll-cookie.swig' %}
   {% include '_third-party/exturl.swig' %}
+  
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.0.1/dist/Meting.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aplayer/1.6.0/APlayer.min.js"></script>
+
 </body>
 </html>
