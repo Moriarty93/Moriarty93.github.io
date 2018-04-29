@@ -15,6 +15,28 @@
   {### POST BLOCK ###}
   {##################}
   <div class="post-block">
+    <div class='post-date'>
+      <div class='post-month'>
+        {{ date(post.updated, config.show_M_format) }}月
+      </div>
+      <div class='post-day'>
+        {{ date(post.updated, config.show_D_format) }}
+      </div>
+    </div>
+    <div class='post-badge'>
+      {% for cat in post.categories %}
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="{{ url_for(cat.path) }}" itemprop="url" rel="index">
+            <span itemprop="name">{{ cat.name }}</span>
+          </a>
+        </span>
+
+        {% set cat_length = post.categories.length %}
+        {% if cat_length > 1 and loop.index !== cat_length %}
+          {{ __('symbol.comma') }}
+        {% endif %}
+      {% endfor %}
+    </div>
     <link itemprop="mainEntityOfPage" href="{{ config.url }}{{ url_for(post.path) }}">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">

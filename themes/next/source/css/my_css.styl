@@ -1,0 +1,142 @@
+.header {
+  width: 100%;
+}
+.header-inner {
+  position relative;
+  width: 100%;
+}
+
+@media screen and (min-width: 991px) {
+  .header-inner {
+    height: 400px;
+    background-size: cover;
+    background-position: center 50%;
+    background-repeat: no-repeat;
+    background-image: url('/images/bg.jpg');
+    &::after {
+      content: 'Moriarty';
+      position: absolute;
+      left: 6%;
+      top: -10px;
+      height: 60px;
+      font-size: 30px;
+      line-height: 60px;
+      text-align: center;
+      color: #fff;
+      border-radius: 5px;
+    }
+  }
+  .menu-item-active a:after, 
+  .header-inner .site-brand-wrapper {
+    display: none;
+  }
+  .header-inner {
+    .menu {
+      margin: 0;
+    }
+    .menu-item {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 20px;
+      &.menu-item-active a {
+        background: none;
+        border-bottom: 1px solid #fff;
+      }
+      a {
+        color: #fff;
+        &:hover {
+          background: none;
+        }
+      }
+    }
+    .site-nav {
+      display: block !important;
+      background: rgba(40,42,44,.6);
+    }
+  }
+  .main {
+    padding-top: 40px;
+    .main-inner {
+      width: 1140px;
+    }
+    .content-wrap {
+      width: 810px;  
+    }
+    .sidebar,
+    .sidebar-inner {
+      width: 300px;
+    }
+  }
+  .sidebar {
+    margin-top: 0 !important;  
+    .sidebar {
+      padding-left: 20px;
+    }
+    .sidebar-inner {
+      border-radius: 5px;
+    }
+  }
+  .post-block {
+    position: relative;
+    border-radius: 5px !important;
+  }
+  .post-date {
+    background-color: #97dffd;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    position: absolute;
+    top: -20px;
+    left: -30px;
+    height: 60px;
+    width: 70px;
+    padding-top: 10px;
+    border-radius: 100px;
+    color: #fff;
+    text-align: center;
+    line-height: 1.1;
+    .post-day {
+      font-size: 30px;
+      font-weight: 700;
+    }
+  }
+  .post-badge {
+    position: absolute;
+    left: -16px;
+    top: 105px;
+    border-color: #47456d;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 3px 1px -2px rgba(0,0,0,.2), 0 1px 5px 0 rgba(0,0,0,.12);
+    background-color: #97dffd;
+    margin: 5px 0 15px 2px;
+    font-size: 14px;
+    border-radius: 0 4px 4px 0;
+    display: inline-block;
+    padding: 7px 11px 7px 32px;
+    line-height: 1;
+    &::after {
+      position: absolute;
+      content: "";
+      top: 100%;
+      left: 0;
+      border-top: 0 solid transparent;
+      border-right-width: 1em;
+      border-right-color: inherit;
+      border-right-style: solid;
+      border-bottom: 1em solid transparent;
+      border-left: 0 solid transparent;
+      width: 0;
+      height: 0;  
+    } 
+    a {
+      border: none;
+      color: #fff;
+    }
+  }
+  .site-meta {
+    background: #fff;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .container .header-inner {
+    width: 100%;
+  }
+}

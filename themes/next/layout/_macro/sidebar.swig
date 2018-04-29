@@ -12,6 +12,39 @@
       <div id="sidebar-dimmer"></div>
     {% endif %}
     <div class="sidebar-inner">
+      <div class="site-brand-wrapper">
+        <div class="site-meta {% if theme.custom_logo.enabled %}custom-logo{% endif %}">
+          {% if theme.custom_logo.image and theme.scheme === 'Muse' %}
+            <div class="site-meta-headline">
+              <a>
+                <img class="custom-logo-image" src="{{ theme.custom_logo.image }}"
+                    alt="{{ config.title }}"/>
+              </a>
+            </div>
+          {% endif %}
+
+          <div class="custom-logo-site-title">
+            <a href="{{ config.root }}"  class="brand" rel="start">
+              <span class="logo-line-before"><i></i></span>
+              <span class="site-title">{{ config.title }}</span>
+              <span class="logo-line-after"><i></i></span>
+            </a>
+          </div>
+            {% if theme.seo %}
+              <h1 class="site-subtitle" itemprop="description">{{ config.subtitle }}</h1>
+            {% else %}
+              <p class="site-subtitle">{{ config.subtitle }}</p>
+            {% endif %}
+        </div>
+
+        <div class="site-nav-toggle">
+          <button>
+            <span class="btn-bar"></span>
+            <span class="btn-bar"></span>
+            <span class="btn-bar"></span>
+          </button>
+        </div>
+      </div>
 
       {% set display_toc = is_post and theme.toc.enable or is_page and theme.toc.enable %}
 
